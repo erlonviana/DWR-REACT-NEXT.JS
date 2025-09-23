@@ -1,0 +1,32 @@
+Fundamentos do React
+
+-Criar um projeto react no Next.JS:
+npx create-next-app .
+typescript? no
+linter? eslint
+tailwind? no
+src? yes
+app router? no
+turbopack? yes
+alias? no
+
+-Rodar o projeto:
+npm run dev
+
+Atraves do jsx (sintax javascript) permite incluir html no código
+
+Componentes funcionais = funçao (Function Home() )
+Ex:
+
+
+Export Default Functiont Home() #já cria a função exportando
+
+src>components: são arquivos javascript (podem ser .js ou .jsx)(js já tem o jsx importado)
+
+Componentes são partes isoladas que montam o site completo
+
+Settings>emmet Include Languages> Preencher Javascript e javascriptreact
+
+Props: São as propriedades. Transferem informações entre componentes
+
+Foi criado um objeto e enviado para o componente Props = { city:"" age:{} email:""}

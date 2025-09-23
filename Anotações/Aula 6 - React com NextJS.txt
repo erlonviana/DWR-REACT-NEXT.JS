@@ -1,0 +1,30 @@
+React - é uma biblioteca JavaScript (não é um framework) criado pelo Facebook.
+
+Facilita a criação de componentes de UI que podem ser reutilizados em diferentes partes da aplicação, melhorando a manutenção do código. Função de deixar a pagina interativa.
+
+Performance eficiente através do Virtual DOM.
+
+JSX = permite incorporar HTML dentro do JavaScript
+
+
+Next é um framework para trabalhar com o React
+Criado pela Vercel, ele combina a simplicidade do React com funcionalidades avançadas que facilitam o desenvolvimento de aplicações web modernas.
+
+Roteamento baseado em arquivos.
+
+Iniciar projeto no React:
+npm install -g yarn
+npm install -g pnpm
+npx create-next-app .
+typescript - no
+linter? ESLint
+Tailwind - no
+src/directory? yes
+app router? no
+turbopack? yes
+import alias? no
+
+rodar o projeto: npm run dev
+
+
+
