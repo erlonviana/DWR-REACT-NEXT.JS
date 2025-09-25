@@ -1,0 +1,27 @@
+Estado no React representam dados que podem mudar ao longo do tempo.
+
+Cada componente em React pode ter seu próprio estado, o que o torna independente e reativo.
+
+Entenda-se estado como algum dado/informação/característica/propriedade que o componente vai ter. Esse componente é reativo e vai se alterar.
+
+O estado é como uma xícara de café. Quando vc termina de fazer o café está quente, depois de um tempo ele fica morno e depois esfria. O tempo e interações interferem na temperatura do café.
+
+O Javascript também faz isso porém o react considera isso como mudança de estado.
+
+O componente é renderizado e re-renderizado em cada alteração de estado do componente.
+
+Se vc não usar o React o navegador vai carregar a página inteira, o React atualiza apenas o componente alterado.
+
+Hooks: ganchos, coisas que vc incorpora no seu componente
+Importar o useState no seu componente
+Como definir estado no código:
+const [count, setCount] = useState(0) //setCount é uma função para atualizar o estado do componente, useState(0) é um contador que inicia em 0
+
+Componente pode ter inúmeros estados. Ex: um formulário. Os estados podem ser todos os campos que podem ser alterados.
+
+React trabalhar com SPA (Single Page Application) aplicação de página única. Se tiver recarregamento de página o estado será perdido.
+
+
+
+
+
