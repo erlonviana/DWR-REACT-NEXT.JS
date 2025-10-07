@@ -5,7 +5,8 @@ const Pet = ({name, breed, age}) => { //ao invés de chamar a Props chamou diret
         <div>
             <p>Informações do Pet</p>
             <ul>
-                <li>Nome: {name}</li>
+                    {/* Dados vindo direto do index */}
+                <li>Nome: {name}</li> 
                 <li>Raça: {breed}</li>
                 <li>Idade: {age} anos</li>
             </ul>

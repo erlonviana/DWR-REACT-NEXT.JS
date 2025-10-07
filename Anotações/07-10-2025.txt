@@ -1,0 +1,14 @@
+Revisão:
+Components
+Props (propriedades)
+Desestruturação de props
+Use State (estados)
+Eventos (onChange, onClick, onSubmit)
+
+Aula de hoje:
+Aninhamento de componentes / children - importando um componente dentro do outro
+.map() -> iteração de arrays
+Css (interno, global, css modules)
+
+
+snipets: pequenos blocos de codigo
