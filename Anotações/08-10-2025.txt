@@ -1,0 +1,15 @@
+Criar novo projeto (npx create-next-app .)
+
+O next permite que crie o backend acoplado no front pela pasta src>api
+
+o arquivo _app.js representa sua aplicação (src>pages>_app.js)
+
+Tudo que colocar dentro de styles>global.css que está importado dentro do arquivo principal. Tudo que fizer nele vai para a aplicação inteira.
+
+src>pages>_document.js é como se começasse a estruturar a página html
+
+index.js é a home (parte dinâmica do site).
+
+Então a ordem seria app>global>document
+
+

@@ -15,7 +15,9 @@ Roteamento baseado em arquivos.
 Iniciar projeto no React:
 npm install -g yarn
 npm install -g pnpm
+
 npx create-next-app .
+
 typescript - no
 linter? ESLint
 Tailwind - no
