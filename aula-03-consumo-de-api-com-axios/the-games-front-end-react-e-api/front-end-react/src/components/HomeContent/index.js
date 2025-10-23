@@ -12,6 +12,9 @@ const HomeContent = () => {
   //Criando um estado para a lista de jogos
   const [games, setGames] = useState([]);
 
+  //Criando um estado para controlar o carregamento da página
+  const [loading, setLoading] = useState(true)
+
   //Criando o bloco do UseEffect:
   useEffect(() => {
     const fetchGames = async() => {
@@ -23,6 +26,8 @@ const HomeContent = () => {
 
       } catch (error){
         console.log(error);
+      } finally {
+        setTimeout (() => setLoading(false), 3000)
       }
     };
     fetchGames(); //invocando a função dentro do useEffect
@@ -51,7 +56,9 @@ const HomeContent = () => {
           <div className={styles.title}>
             <h2>Lista de jogos</h2>
           </div>
-          {/*<Loading />*/}
+          {loading ? (
+          <Loading loading = {loading} />
+          ) : ( 
           <div className={styles.games} id={styles.games}>
             {/* Lista de jogos irá aqui */}
             {games.map((game) => (
@@ -87,6 +94,7 @@ const HomeContent = () => {
               </ul>
             ))}
           </div>
+          )}
         </div>
       </div>
     </>
