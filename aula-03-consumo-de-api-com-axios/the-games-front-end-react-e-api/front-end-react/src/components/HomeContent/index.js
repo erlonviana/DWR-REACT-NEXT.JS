@@ -1,124 +1,118 @@
-//importando useState para estados
-//Hook useEffect -> efeito colateral, é um bloco executado quando o componente é re-renderizado
 import { useState, useEffect } from "react";
-
 import styles from "@/components/HomeContent/HomeContent.module.css";
 import Loading from "../Loading";
-//Importando o axios para enviar as requisições http
 import axios from "axios";
 import EditContent from "../EditContent";
 
 const HomeContent = () => {
-
-  //Criando um estado para a lista de jogos
   const [games, setGames] = useState([]);
-
-  //Criando um estado para controlar o carregamento da página
-  const [loading, setLoading] = useState(true)
-
+  const [loading, setLoading] = useState(true);
   const [selectedGame, setSelectedGame] = useState(null);
+  const [refreshTrigger, setRefreshTrigger] = useState(0); // NOVO: trigger para recarregar
 
-  //Criando o bloco do UseEffect:
+  // useEffect para carregar jogos - executa quando refreshTrigger muda
   useEffect(() => {
     const fetchGames = async() => {
       try{
-        const response = await axios.get("http://localhost:4000/games")
-        //Atualizando o estado com a lista de jogos:
-        setGames(response.data.games)
-        //console.log(response.data.games);//Vai aparecer apenas lista de jogos
-
+        const response = await axios.get("http://localhost:4000/games");
+        setGames(response.data.games);
       } catch (error){
         console.log(error);
       } finally {
-        setTimeout (() => setLoading(false), 3000)
+        setTimeout(() => setLoading(false), 3000);
       }
     };
-    fetchGames(); //invocando a função dentro do useEffect
-  }, [games]); //antes de finalizar o useEffect o colchete  é a dependência do useEffect (é o que ele fica observando)
+    fetchGames();
+  }, [refreshTrigger]); // ← Agora observa o refreshTrigger
 
+  // Função para forçar atualização da lista
+  const refreshGames = () => {
+    setRefreshTrigger(prev => prev + 1); // ← Muda o trigger, disparando o useEffect
+  };
 
-  //Função de deletar 
+  // Função de deletar 
   const deleteGame = async (gameId) => {
     try {
       const response = await axios.delete(`http://localhost:4000/games/${gameId}`);
-      if (response.status == 204){
-        alert ("O jogo foi excluido com sucesso")
-        //Filtrando a lista de jogos, removendo o jogo que foi excluido por meio de sua ID:
-        setGames(games.filter((game) => game._id !== gameId))
+      if (response.status === 204){
+        alert("O jogo foi excluído com sucesso");
+        refreshGames(); // ← Atualiza a lista após deletar
       }
     } catch (error){
-      console.log(error)
+      console.log(error);
     }
   }
 
-  //Função para abrir o modal (aparece para jogo selecionado)
-  const openEditModal = (game) =>{
+  // Função para abrir o modal
+  const openEditModal = (game) => {
     setSelectedGame(game);
   };
 
-  //Função para fechar o modal (quando o jogo deixar de ser selecionado)
+  // Função para fechar o modal
   const closeEditModal = () => {
-    setSelectedGame(null)
+    setSelectedGame(null);
   }
+
+  // Função chamada quando um jogo é editado com sucesso
+  const handleGameUpdated = () => {
+    refreshGames(); // ← Atualiza a lista após editar
+    closeEditModal(); // ← Fecha o modal
+  };
+
   return (
     <>
       <div className={styles.homeContent}>
-        {/* CARD LISTA DE JOGOS */}
         <div className={styles.listGamesCard}>
-          {/* TITLE */}
           <div className={styles.title}>
             <h2>Lista de jogos</h2>
           </div>
           {loading ? (
-          <Loading loading = {loading} />
+            <Loading loading={loading} />
           ) : ( 
-          <div className={styles.games} id={styles.games}>
-            {/* Lista de jogos irá aqui */}
-            {games.map((game) => (
-              <ul key={game._id} className={styles.listGames}>
-                <div className={styles.gameImg}>
-                  <img src="images/game_cd_cover.png" alt="Jogo em estoque"/>
-                </div>
-                <div clasName={styles.gameInfo}>
-                  <h3>{game.title}</h3>
-                  <li>Plataforma: {game.descriptions.platform}</li>
-                  <li>Gênero: {game.descriptions.genre}</li>
-                  <li>Classificação: {game.descriptions.rating}</li>
-                  <li>Ano: {game.year}</li>
-                  <li>Preço: {game.price.toLocaleString("pt-br", {
-                    style: "currency",
-                    currency: "BRL"
-                  })}</li>
-                  {/* Botão para deletar: */}
-                  <button className={styles.btnDel}
-                  onClick={() => {
-
-                    const confirmed = window.confirm(
-                      "Deseja mesmo excluir o jogo?"
-                    );
-                    if (confirmed){
-                      deleteGame(game._id);
-                    }
-                    }}
-                  >
-                    Deletar
-                  </button>
-                  {/* Botao de editar */}
-                  <button
-                  className={styles.btnEdit}
-                  onClick={()=> openEditModal(game)}
-                  >Editar
-                  
-                  </button>
-                </div>
-              </ul>
-            ))}
-          </div>
+            <div className={styles.games} id={styles.games}>
+              {games.map((game) => (
+                <ul key={game._id} className={styles.listGames}>
+                  <div className={styles.gameImg}>
+                    <img src="images/game_cd_cover.png" alt="Jogo em estoque"/>
+                  </div>
+                  <div className={styles.gameInfo}>
+                    <h3>{game.title}</h3>
+                    <li>Plataforma: {game.descriptions.platform}</li>
+                    <li>Gênero: {game.descriptions.genre}</li>
+                    <li>Classificação: {game.descriptions.rating}</li>
+                    <li>Ano: {game.year}</li>
+                    <li>Preço: {game.price.toLocaleString("pt-br", {
+                      style: "currency",
+                      currency: "BRL"
+                    })}</li>
+                    <button className={styles.btnDel}
+                      onClick={() => {
+                        const confirmed = window.confirm("Deseja mesmo excluir o jogo?");
+                        if (confirmed){
+                          deleteGame(game._id);
+                        }
+                      }}
+                    >
+                      Deletar
+                    </button>
+                    <button
+                      className={styles.btnEdit}
+                      onClick={() => openEditModal(game)}
+                    >
+                      Editar
+                    </button>
+                  </div>
+                </ul>
+              ))}
+            </div>
           )}
         </div>
-        {/* Renderização condicional para fazer aparecer o modal */}
         {selectedGame && (
-          <EditContent game={selectedGame} closeEditModal={closeEditModal}/>
+          <EditContent 
+            game={selectedGame} 
+            closeEditModal={closeEditModal}
+            onGameUpdated={handleGameUpdated} // ← NOVO: callback para sucesso
+          />
         )}
       </div>
     </>
