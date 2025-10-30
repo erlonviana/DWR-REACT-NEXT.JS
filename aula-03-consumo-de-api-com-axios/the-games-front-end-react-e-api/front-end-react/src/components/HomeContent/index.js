@@ -6,6 +6,7 @@ import styles from "@/components/HomeContent/HomeContent.module.css";
 import Loading from "../Loading";
 //Importando o axios para enviar as requisições http
 import axios from "axios";
+import EditContent from "../EditContent";
 
 const HomeContent = () => {
 
@@ -14,6 +15,8 @@ const HomeContent = () => {
 
   //Criando um estado para controlar o carregamento da página
   const [loading, setLoading] = useState(true)
+
+  const [selectedGame, setSelectedGame] = useState(null);
 
   //Criando o bloco do UseEffect:
   useEffect(() => {
@@ -46,6 +49,16 @@ const HomeContent = () => {
     } catch (error){
       console.log(error)
     }
+  }
+
+  //Função para abrir o modal (aparece para jogo selecionado)
+  const openEditModal = (game) =>{
+    setSelectedGame(game);
+  };
+
+  //Função para fechar o modal (quando o jogo deixar de ser selecionado)
+  const closeEditModal = () => {
+    setSelectedGame(null)
   }
   return (
     <>
@@ -90,12 +103,23 @@ const HomeContent = () => {
                   >
                     Deletar
                   </button>
+                  {/* Botao de editar */}
+                  <button
+                  className={styles.btnEdit}
+                  onClick={()=> openEditModal(game)}
+                  >Editar
+                  
+                  </button>
                 </div>
               </ul>
             ))}
           </div>
           )}
         </div>
+        {/* Renderização condicional para fazer aparecer o modal */}
+        {selectedGame && (
+          <EditContent game={selectedGame} closeEditModal={closeEditModal}/>
+        )}
       </div>
     </>
   );
